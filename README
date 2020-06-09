@@ -34,7 +34,8 @@ save at time 0. Saves to planner.py work the same as any normal file saves
 
 ControlDemo
 ---------------------------------------------------------------------------------------------------
-Setup identical to previous Demo except constraint 3 is changed to as follows
+This Demo is meant to show dynamics and control of cars. Setup identical to previous Demo except 
+constraint 3 is changed to as follows
         3) Only one car should be in the box and it should face north (north facing is tech issue on our side)
 The major difference, is that this demo will run the RRT for one of the cars. After building setting the maze
 Click File in the top left corner to open drop-down menu, select Open Text File and open the following file
