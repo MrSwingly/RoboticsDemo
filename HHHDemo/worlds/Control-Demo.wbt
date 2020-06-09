@@ -1,0 +1,324 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  basicTimeStep 8
+  defaultDamping Damping {
+    linear 0.5
+    angular 0.5
+  }
+  contactProperties [
+    ContactProperties {
+      material1 "HoundW"
+      coulombFriction [
+        500
+      ]
+      softERP 1
+    }
+    ContactProperties {
+      material2 "Caster"
+      coulombFriction [
+        0
+      ]
+    }
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, -1
+      ]
+      frictionRotation -0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        1.8, 0, -1
+      ]
+      frictionRotation 0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.5718664191173815 -0.5756326257496092 -0.5844791517740165 2.088148139865213
+  position 0.49429785100548257 14.079925290351254 -0.30333398852807747
+}
+Floor {
+  tileSize 1 1
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Solid {
+  translation 0 0.05 4.74
+  children [
+    DEF WALL-SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 6 0.1 0.1
+      }
+    }
+  ]
+  model "wall"
+  boundingObject USE WALL-SHAPE
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation 0.5 0.05 4.5
+  children [
+    DEF WALL-SHAPE2 Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 5 0.1 0.1
+      }
+    }
+  ]
+  name "solid(1)"
+  model "wall"
+  boundingObject USE WALL-SHAPE2
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation 1 0.05 4.25
+  children [
+    DEF WALL-SHAPE3 Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 4 0.1 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  model "wall"
+  boundingObject USE WALL-SHAPE3
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation 1.5 0.05 4
+  children [
+    DEF WALL-SHAPE4 Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 3 0.1 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  model "wall"
+  boundingObject USE WALL-SHAPE4
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation 2 0.05 3.75
+  children [
+    DEF WALL-SHAPE5 Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 2 0.1 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  model "wall"
+  boundingObject USE WALL-SHAPE5
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation 2.5 0.05 3.5
+  children [
+    DEF WALL-SHAPE6 Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 1 0.1 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  model "wall"
+  boundingObject USE WALL-SHAPE6
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation 2.75 0.05 3.25
+  children [
+    DEF WALL-SHAPE6 Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.5 0.1 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  model "wall"
+  boundingObject USE WALL-SHAPE6
+  recognitionColors [
+    1 0 0
+  ]
+}
+hawk {
+  translation 0 0.0700022 -3.42
+  rotation 1 0 0 -1.5707953071795862
+  name "Mavic 2 PRO(1)"
+  controller "hawk_control"
+}
+hippo {
+  translation -2.43 0.120027 4.01
+  RecognitionColors [
+    0 0 0
+  ]
+}
+hound {
+  translation -2.49998 0.03 3.49
+  rotation 0 1 0 1.5708
+  RecognitionColors [
+    1 1 1
+  ]
+}
+Solid {
+  translation -3.05 0 3e-06
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 6 0.1 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+}
+Solid {
+  translation 3.06 0 -3.22981e-06
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 6 0.1 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+}
+Solid {
+  translation -1.01503e-07 0 -3.05
+  rotation 0 1 0 1.01503e-06
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 6 0.1 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+}
+Solid {
+  translation 6.07991e-06 0 3.04
+  rotation 0 1 0 1.01503e-06
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 6 0.1 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+}
+AdvertisingBoard {
+  translation 4.03 1.18721e-05 -1.18721e-05
+  rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.09439
+  frontTexture [
+    "textures/Capture.JPG"
+  ]
+  backTexture [
+    "textures/Capture.JPG"
+  ]
+  displayHeight 1
+}
