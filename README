@@ -1,1 +1,27 @@
 Installation and Setup Instructions
+---------------------------------------------------------------------------------------------------
+Requires the Following Software
+WeBots: https://cyberbotics.com
+        Go To Site and Follow Instructions For Download
+Python: Must be version 3.7.x (make sure to change path to after download)
+Necessary Libraries: numpy, cv2, matplotlib, scipy, PIL
+
+After downloading: Go to HHHDemo/Worlds
+You will see some files with the suffix Demo, open these files using Webots in Order to interact with the Demos
+
+ConfigAndPlanningDemo
+---------------------------------------------------------------------------------------------------
+This Demo is meant to show the config and planning modules. You may design a maze with the following constraints
+    1) All walls must be within the white boundaries
+    2) All walls must be vertical or horizontal (diagnal walls cause issues with configspace generation)
+    3) Hippo and Hound must both be put inside the box
+To create the maze, click on the one of varying wall sizes on the right, then copy (Ctrl-C) and paste (Ctrl-V) to 
+make a copy of the desired Wall. Afterwards, use the arrows to rotate and move the wall to the desired location.
+Next be sure to put hound and hippo into the maze by clicking on them and dragging them into the maze. For this demo 
+they simply act as place holders so they will no be doing anything. You may create whatever maze satisifies the three 
+constraints, but keep in mind that if the maze is unsolvable RRT will run until it hits the upper boundary on node values.
+
+Next, click File in the top left corner to open drop-down menu, select Open Text File and open the following file
+HHHDemo/controllers/hawk_config_plan/planner.py
+The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
+Further instructions in file.
