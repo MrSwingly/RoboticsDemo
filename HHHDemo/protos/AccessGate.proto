@@ -1,0 +1,141 @@
+PROTO AccessGate [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString   name         "AccessGate"
+  field SFFloat    WheelMass    5
+  field SFFloat    BodyMass     10
+  field MFColor    RecognitionColors []
+  field SFInt32    r_channel    0
+  field SFFloat    maxVelocity  10
+  field SFString   controller   "wall_controller"
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF WALL Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.8 0.12 0.14
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.36 -0.03 0.06
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+          maxVelocity IS maxVelocity
+        }
+      ]
+      endPoint Solid {
+        translation 0.36 -0.03 0.06
+        rotation 1 0 0 1.570800306090506
+        children [
+          DEF WALLWHEEL Shape {
+            appearance PBRAppearance {
+              transparency 1
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+              subdivision 24
+            }
+          }
+        ]
+        name "ZOOM1"
+        boundingObject USE WALLWHEEL
+        physics DEF WALLPHY Physics {
+          density -1
+          mass IS WheelMass
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.36 -0.03 -0.06
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+          maxVelocity IS maxVelocity
+        }
+      ]
+      endPoint Solid {
+        translation 0.36 -0.03 -0.06
+        rotation 1 0 0 1.5707999779318496
+        children [
+          USE WALLWHEEL
+        ]
+        name "ZOOM2"
+        boundingObject USE WALLWHEEL
+        physics USE WALLPHY
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor -0.36 -0.03 0.06
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+          maxVelocity IS maxVelocity
+        }
+      ]
+      endPoint Solid {
+        translation -0.36 -0.03 0.06
+        rotation 0.9999999999999999 0 0 1.5708032147316675
+        children [
+          USE WALLWHEEL
+        ]
+        name "ZOOM3"
+        boundingObject USE WALLWHEEL
+        physics USE WALLPHY
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor -0.36 -0.03 -0.06
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+          maxVelocity IS maxVelocity
+        }
+      ]
+      endPoint Solid {
+        translation -0.36 -0.03 -0.06
+        rotation 1 0 0 1.570800590129681
+        children [
+          USE WALLWHEEL
+        ]
+        name "ZOOM4"
+        boundingObject USE WALLWHEEL
+        physics USE WALLPHY
+      }
+    }
+    Receiver {
+      channel IS r_channel
+    }
+  ]
+  name IS name
+  boundingObject USE WALL
+  physics Physics {
+    density -1
+    mass IS BodyMass
+  }
+  recognitionColors IS RecognitionColors
+  controller IS controller
+}
+}

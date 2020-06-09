@@ -1,0 +1,64 @@
+PROTO AccessCage [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString   name         "Container"
+  field MFColor    RecognitionColors []
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF CONTAININER Group {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.2 0.16 0.02
+          }
+        }
+        Transform {
+          translation 0 0.07 -0.45
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.2 0.02 0.9
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.09 0 -0.45
+          children [
+            DEF CONTAINSIDE Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.02 0.16 0.9
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.09 0 -0.45
+          children [
+            USE CONTAINSIDE
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  boundingObject USE CONTAININER
+  recognitionColors IS RecognitionColors
+}
+}

@@ -1,0 +1,35 @@
+PROTO Heavy [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFFloat    bodyMass     2
+  field MFColor    RecognitionColors []
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF BOXX Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/marble.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6 0.2 0.6
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BOXX
+  physics Physics {
+    density -1
+    mass IS bodyMass
+  }
+  recognitionColors IS RecognitionColors
+}
+}

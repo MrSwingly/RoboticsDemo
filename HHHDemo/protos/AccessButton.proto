@@ -1,0 +1,51 @@
+PROTO AccessButton [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString   name         "AccessButton"
+  field MFColor    RecognitionColors []
+  field SFInt32    e_channel    0
+  field SFString   controller   "button_control"
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry DEF STAND Cylinder {
+        height 0.03
+        radius 0.035
+      }
+    }
+    Emitter {
+      channel IS e_channel
+    }
+    TouchSensor {
+      translation 0 0.01 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BUTTON Cylinder {
+            height 0.02
+            radius 0.03
+          }
+        }
+      ]
+      name "button"
+      boundingObject USE BUTTON
+    }
+  ]
+  name IS name
+  boundingObject USE STAND
+  recognitionColors IS RecognitionColors
+  controller IS controller
+}
+}

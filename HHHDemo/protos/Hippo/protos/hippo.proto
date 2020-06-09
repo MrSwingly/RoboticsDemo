@@ -1,0 +1,104 @@
+#VRML_SIM R2020a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/youbot
+# The KUKA youBot is a powerful, educational robot that is especially designed for research and education in mobile manipulation, which counts as a key technology for professional service robotics. It consists of an omnidirectional platform, a five degree-of-freedom robot arm and a two-finger gripper.
+
+PROTO hippo [
+  field SFVec3f    translation     0 0.12 0      # Is `Transform.translation`.
+  field SFRotation rotation        1 0 0 -1.5708 # Is `Transform.rotation`.
+  field SFString   name            "youBot"      # Is `Solid.name`.
+  field SFString   controller      "hippo_RRT"      # Is `Robot.controller`.
+  field SFString   controllerArgs  ""            # Is `Robot.controllerArgs`.
+  field SFString   customData      ""            # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE         # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
+  field MFNode     bodySlot        []            # Extends the robot with new nodes in the body slot.
+  field MFColor    RecognitionColors []
+  field SFFloat    bodyMass        22
+  field SFInt32    e_channel      1 
+  field SFInt32    r_channel      1
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  customData IS customData
+  supervisor IS supervisor
+  synchronization IS synchronization
+  name IS name
+  model "KUKA youBot"
+  children [
+    BodyMesh {
+    }
+    Group {
+      children IS bodySlot
+    }
+    DEF WHEEL1 InteriorWheel {
+      translation 0.228 -0.158 -0.055
+      anchor 0.228 -0.158 -0.055
+      name "wheel1"
+      sensorName "wheel1sensor"
+    }
+    DEF WHEEL2 ExteriorWheel {
+      translation 0.228 0.158 -0.055
+      anchor 0.228 0.158 -0.055
+      name "wheel2"
+      sensorName "wheel2sensor"
+    }
+    DEF WHEEL3 ExteriorWheel {
+      translation -0.228 -0.158 -0.055
+      anchor -0.228 -0.158 -0.055
+      name "wheel3"
+      sensorName "wheel3sensor"
+    }
+    DEF WHEEL4 InteriorWheel {
+      translation -0.228 0.158 -0.055
+      anchor -0.228 0.158 -0.055
+      name "wheel4"
+      sensorName "wheel4sensor"
+    }
+    Emitter {
+      channel IS e_channel
+    }
+    Receiver {
+      channel IS r_channel
+    }
+  ]
+  description "KUKA youBot"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 -0.045
+        children [
+          Box {
+            size 0.34 0.34 0.09
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 -0.045
+        children [
+          Box {
+            size 0.56 0.23 0.09
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass IS bodyMass
+    centerOfMass [
+      0 0 -0.045
+    ]
+    inertiaMatrix [
+      0.166204 0.418086 0.55459
+      0 0 0
+    ]
+  }
+  recognitionColors IS RecognitionColors
+  controller IS controller
+  controllerArgs IS controllerArgs
+}
+}
