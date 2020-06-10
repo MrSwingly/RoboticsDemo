@@ -140,7 +140,7 @@ while robot.step(TIME_STEP) != -1:
     elif done_mode:
         if counter < 300:
             counter = counter + 1
-        if counter > 270:
+        if counter > 210:
             wheels[0].setVelocity(0)
             wheels[1].setVelocity(0)
             wheels[2].setVelocity(0)
@@ -159,17 +159,17 @@ while robot.step(TIME_STEP) != -1:
     # it enters the wait mode automatically, resets necessary variables at end                
     elif push_mode:
         counter = counter + 1
-        if counter > 311:
+        if counter > 425:
             push_mode = False
             wait_mode = True
             counter = 0
             print("Pushed it")
-        if counter > 275:
+        if counter > 335:
             wheels[0].setVelocity(-8)
             wheels[1].setVelocity(-8)
             wheels[2].setVelocity(-8)
             wheels[3].setVelocity(-8)
-        elif counter > 270:
+        elif counter > 330:
             wheels[0].setVelocity(0)
             wheels[1].setVelocity(0)
             wheels[2].setVelocity(0)
