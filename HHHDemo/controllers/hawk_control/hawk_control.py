@@ -344,7 +344,9 @@ while robot.step(timestep) != -1 and killswitch != 1:
         # Send Path to Hippo if found
         if pathHP != []:
             for x in pathHP:
+                print(x)
                 for y in x[3]:
+                    print(y)
                     message = "Hippo 0 Path " + str(y[0]) + " " + str(y[1]) + " " + str(y[2]) + " " + str(y[3]) + " " + str(y[4])
                     send(message)
             send("Hippo 0 Cap Done")
