@@ -215,6 +215,8 @@ while robot.step(timestep) != -1 and killswitch != 1:
                 houndstart = [centx,camy - centy]
             elif (i.get_colors() == [0, 0, 0]):
                 hippostart = [centx,camy - centy]
+            elif (i.get_colors() == [0, 1, 0]):
+                gggoal = [centx,camy - centy]
             elif(i.get_colors() == [1,0,0]):
                 #getting configspace for obstacles
                 for cdx in range(centx-xdist,centx+xdist):
@@ -227,14 +229,14 @@ while robot.step(timestep) != -1 and killswitch != 1:
         # Calling to map the RRT (you get five chances each)
         chances = 0
         while chances < 2:
-            pathHD = planner.runRRT('HOUND', [24,48], data, houndstart + [0],"N/A")
+            pathHD = planner.runRRT('HOUND', [24,48], data, houndstart + [0],gggoal + [0])
             if pathHD != []:
                 break
             chances = chances + 1
         
         chances = 0
         while chances < 2:
-            pathHP = planner.runRRT('HIPPO', [96,136], data, hippostart+ [0],"N/A")
+            pathHP = planner.runRRT('HIPPO', [96,136], data, hippostart+ [0],gggoal + [0])
             if pathHP != []:
                 break
             chances = chances + 1

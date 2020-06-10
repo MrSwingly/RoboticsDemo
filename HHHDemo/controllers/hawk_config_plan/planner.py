@@ -21,6 +21,7 @@ def runRRT(dynamics, robotsize, data ,start = [0,50],end = [1950,1650]):
         
         robotSize = [length in pixels, width in pixels]
             For scale, the area covered by the box is roughly 1200 by 1200 pixels
+            As this increases so does compuation time
         data = camera view
             (DO NOT ALTER)
         scaleFactor = Downsizing of resolution i.e 4 means 16 pixels become 1 pixel
@@ -48,24 +49,25 @@ def runRRT(dynamics, robotsize, data ,start = [0,50],end = [1950,1650]):
         origin = Start position of car
             (DO NOT ALTER)
         goal = Goal, may alter first three values for x,y,theta (DO NOT ALTER REMAINING VALUES)
-            x and y are bound from 0 to 1199 and theta is bound to -math.pi and math.pi
-            bottom left is 0 0 and top right is 1199 1199,  note that you should avoid setting
-            goal around edge since this is likely to fail
+            This is set by green cone
         live = Live Plotting (Turned Off, takes too long)
             (DO NOT ALTER)
         divis = Time division of live plotter
             (DO NOT ALTER)
     """
     N = 10000
-    goal = [710,1110, 0]
+    
+    
     ##########################################################################################
     
 
     #initialize RRT
+    if dynamics == "HIPPO":
+        debug_val = False
     obs = img.obsSpaceGen(robotSize, data, scaleFactor, debug=debug_val)
     plt.imshow(data,interpolation='nearest') #show 2D representation of map
     r = RRT.rrt(N = N,obstacles = obs.T, obstacletype = 'array', maxcoords = obs[0].shape,
-            origin = start+[0,'',0],goal = goal, live = False, divis = 10)
+            origin = start+[0,'',0],goal = end, live = False, divis = 10)
             
     #Perform RRT
     trajectory = r.rrt(dynamics,plotting=True)
