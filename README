@@ -18,6 +18,7 @@ You may design a maze with the following constraints
     2) All walls must be vertical or horizontal (diagnal walls cause issues with configspace generation)
     3) Hippo and Hound must both be put inside the box, and must be at least one hippo width(the smaller dimension) away
        from any wall or edge of the maze
+    4) Goal state must be one hippo width away from wall or edge of boundary
        
 1) To create the maze, click on the one of varying wall sizes on the right, then copy (Ctrl-C) and paste (Ctrl-V) to 
 make a copy of the desired Wall length. 
@@ -27,17 +28,20 @@ Note that if you delete something that ur not supposed to, there is no way to un
 (this is a WeBots issue) so you must close the the WeBots tool without saving in order to retrieve the deleted item.
 
 3)Next be sure to put hound and hippo into the maze by clicking on them and dragging them into the maze. For this demo 
-they simply act as place holders so they will not be doing anything. You may create whatever maze satisifies the three 
-constraints, but keep in mind that if the maze is unsolvable RRT will run until it hits the upper boundary on node values.
+they simply act as place holders so they will not be doing anything. 
 
-4)Next, click File in the top left corner to open the drop-down menu, select Open Text File and open the following file
+4) Move the green cone to the desired goal spot. It must be one hippo width away from a wall or edge of boundary.
+You may create whatever maze satisifies the four constraints, but keep in mind that if the maze is unsolvable RRT 
+will run until it hits the upper boundary on node values.
+
+5)Next, click File in the top left corner to open the drop-down menu, select Open Text File and open the following file
         HHHDemo/controllers/hawk_config_plan/planner.py
   Note: If the file is already open upon opening Webots then you can skip this step
         
-5)The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
+6)The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
 Further instructions in file. 
 
-6)After you have desired values, you can press play and simulation will run and print config slices
+7)After you have desired values, you can press play and simulation will run and print config slices
 followed by RRT plan a hound and a hippo of the provided size.
 
 NOTE: Note that resetting the simulation for the 3D world, will reset the 3D world to whatever state it was in at
@@ -56,6 +60,7 @@ You may design a maze with the following constraints
     2) All walls must be vertical or horizontal (diagnal walls cause issues with configspace generation)
     3) Hippo or Hound must be put inside maze, but not both, it must be at least one hippo 
        width(the smaller dimension) away from any wall or edge of the maze, and it must face north
+    4) Goal state must be one hippo width away from wall or edge of boundary
 
 1) To create the maze, click on the one of varying wall sizes on the right, then copy (Ctrl-C) and paste (Ctrl-V) to 
 make a copy of the desired Wall length. 
@@ -68,14 +73,18 @@ Note that if you delete something that ur not supposed to, there is no way to un
 whatever maze satisifies the three constraints, but keep in mind that if the maze is unsolvable 
 RRT will run until it hits the upper boundary on node values.
 
-4)Next, click File in the top left corner to open the drop-down menu, select Open Text File and open the following file
+4) Move the green cone to the desired goal spot. It must be one hippo width away from a wall or edge of boundary.
+You may create whatever maze satisifies the four constraints, but keep in mind that if the maze is unsolvable RRT 
+will run until it hits the upper boundary on node values.
+
+5)Next, click File in the top left corner to open the drop-down menu, select Open Text File and open the following file
         HHHDemo/controllers/hawk_control/planner.py
   Note: If the file is already open upon opening Webots then you can skip this step
         
-5)The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
+6)The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
 Further instructions in file. 
 
-6)After you have desired values, you can press play and simulation will run and have the car run the maze
+7)After you have desired values, you can press play and simulation will run and have the car run the maze
 
 The purpose of this Demo is to show the control module as well as dynamics
 
