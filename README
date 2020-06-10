@@ -48,6 +48,45 @@ NOTE: Note that resetting the simulation for the 3D world, will reset the 3D wor
 time 0. So unless you save, ur maze will be wiped upon reset. Also you should not save while the simulation is running so only
 save at time 0. Saves to planner.py work the same as any normal file saves
 
-Top-Level-1,2,3Demo
+DynamicDemo
+---------------------------------------------------------------------------------------------------
+This demo is meant to demonstrate the detection of dynamic obstacles in the path of individual robots. Setup is identical to 
+ConfigAndPlanningDemo. Immidiately as the world opens, hit pause at the top of the screen. Copy and paste (Ctrl-C and Ctrl-P, or
+use the right-click menu) Static obstacles (the walls on the right) and dynamic obstacles(The box and gate on the left) 
+throughout the box to make a maze. Then, place Hound and Hippo in any location in the maze. The goal is defined as the 
+upper-right corner of the box. 
+
+Once the maze is built, hit play. Hawk will position itself above the maze and calculate a naive RRT (without care 
+to the dynamics of either robot). Note that this is simply a way to check for obstacles between the robot and the goal
+and does not require dynamics. Once the RRTs are complete, they will be displayed, showing the static obstacles (walls)
+in dark blue, "gate" type dynamic obstacles in green, "block" type dynamic obstacles in yellow, and free space in purple.
+Once these windows are closed, the console will then output the obstacles each robot will encounter and in what order. 
+
+RCAP-Demo
+---------------------------------------------------------------------------------------------------
+1) To run the simulation, go to "worlds" folder and open "RCAP_show.wbt".
+
+The simulation RCAP_show.wbt shows two robots moving on their individual trajectories. It has three 
+predefined trajectories which are chosen from randomly when the simulation starts. The predefined trajectories 
+are intended to show the deadlock scenarios and the block path scenarios.
+
+In the simulation, there are three robots. The first robot(small green car to the right) sends two trajectories 
+to the two other robots at the start of the simulation, this meant to act as a dummy hawk server. After receiving their 
+trajectories, the other two robots start driving according to their trajectories using the collision avoidance protocol to 
+protect them from hitting each other.
+
+How does the protocol work?
+A: The protocol only allows one of the two robots to move from one node to another node at a single time. If the 
+robot with the right-of-way cannot move because the other robot's current position blocks its way, it will check if 
+deadlock occurs. If deadlock occurs, it will call deadlock resolution protocol. Otherwise, it will pass the right-o 
+way to the second robot. Both of the two robots are running the same protocol. 
+
+There are three constraints on the RCAP:
+1. The final goal node of one robot cannot block the path of another robot's trajectory
+2. Only one robot is allowed to move at a time
+3. Since there is no replanning, there cannot be a scenario where one of the robot's parent node appears near 
+   to the other robot's current node, this will cause catastrophic deadlock.
+
+Top-Level-1,2 Demo
 ---------------------------------------------------------------------------------------------------
 Setting these up still
