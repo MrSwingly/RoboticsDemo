@@ -95,7 +95,7 @@ Top-Level2: You can move them anywhere in their initial area as long as they are
 
 The purpose of this video demo is to show the synthesis of different modules as well as the fact that we were unable to synthesize
 collision avoidance on time. Due to this, Top-Level is expected to fail sometimes since hippo and hound share portions of execution
-where they can occupy the same area. Meanwhile Top-LEvel2 is has hound and hippo in separate areas so they will not be able
+where they can occupy the same area. Meanwhile Top-Level2 is has hound and hippo in separate areas so they will not be able
 to collide during execution and should succeed a majority of the time
 
 DynamicDemo
