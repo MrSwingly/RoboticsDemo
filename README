@@ -3,50 +3,100 @@ Installation and Setup Instructions
 Requires the Following Software
 WeBots: https://cyberbotics.com
         Go To Site and Follow Instructions For Download
-Python: Must be version 3.7.x (make sure to change path to after download)
+Python: Must be version 3.7.x (make sure to change PATH variable after download)
 Necessary Libraries: numpy, cv2, matplotlib, scipy, PIL
 
 After downloading: Go to HHHDemo/Worlds
 You will see some files with the suffix Demo, open these files using Webots in Order to interact with the Demos
 
+
 ConfigAndPlanningDemo
 ---------------------------------------------------------------------------------------------------
-This Demo is meant to show the config and planning modules. You may design a maze with the following constraints
+This Demo is meant to show the config and planning modules. 
+You may design a maze with the following constraints
     1) All walls must be within the white boundaries
     2) All walls must be vertical or horizontal (diagnal walls cause issues with configspace generation)
-    3) Hippo and Hound must both be put inside the box
-To create the maze, click on the one of varying wall sizes on the right, then copy (Ctrl-C) and paste (Ctrl-V) to 
-make a copy of the desired Wall. Afterwards, use the arrows to rotate and move the wall to the desired location. Hit delete if
-you wish to remove a wall. Note that if you delete something that ur not supposed to, there is no way to undo the delete 
+    3) Hippo and Hound must both be put inside the box, and must be at least one hippo width(the smaller dimension) away
+       from any wall or edge of the maze
+       
+1) To create the maze, click on the one of varying wall sizes on the right, then copy (Ctrl-C) and paste (Ctrl-V) to 
+make a copy of the desired Wall length. 
+
+2) Afterwards, use the arrows to rotate and move the wall to the desired location. Hit delete if you wish to remove a wall. 
+Note that if you delete something that ur not supposed to, there is no way to undo the delete 
 (this is a WeBots issue) so you must close the the WeBots tool without saving in order to retrieve the deleted item.
-Next be sure to put hound and hippo into the maze by clicking on them and dragging them into the maze. For this demo 
-they simply act as place holders so they will no be doing anything. You may create whatever maze satisifies the three 
+
+3)Next be sure to put hound and hippo into the maze by clicking on them and dragging them into the maze. For this demo 
+they simply act as place holders so they will not be doing anything. You may create whatever maze satisifies the three 
 constraints, but keep in mind that if the maze is unsolvable RRT will run until it hits the upper boundary on node values.
-Next, click File in the top left corner to open drop-down menu, select Open Text File and open the following file
-HHHDemo/controllers/hawk_config_plan/planner.py
-The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
-Further instructions in file. After you have desired values, you can press play and simulation will run and print config slices
+
+4)Next, click File in the top left corner to open the drop-down menu, select Open Text File and open the following file
+        HHHDemo/controllers/hawk_config_plan/planner.py
+  Note: If the file is already open upon opening Webots then you can skip this step
+        
+5)The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
+Further instructions in file. 
+
+6)After you have desired values, you can press play and simulation will run and print config slices
 followed by RRT plan a hound and a hippo of the provided size.
 
 NOTE: Note that resetting the simulation for the 3D world, will reset the 3D world to whatever state it was in at
-time 0. So unless you save, ur maze will be wiped upon reset. Also you should not save while the simulation is running so only
-save at time 0. Saves to planner.py work the same as any normal file saves
+time 0. So unless you save, your maze will be wiped upon reset. Also you should not save while the simulation is running 
+so only save at time 0. Saves to planner.py work the same as any normal file saves
+
+The purpose of this Demo is to show the config and planning modules, the variables you are allowed to change effect the
+performance and accuracy of the modules.
+
 
 ControlDemo
 ---------------------------------------------------------------------------------------------------
-This Demo is meant to show dynamics and control of cars. Setup identical to previous Demo except 
-constraint 3 is changed to as follows
-        3) Only one car should be in the box and it should face north (north facing is tech issue on our side)
-The major difference, is that this demo will run the RRT for one of the cars. After building setting the maze
-Click File in the top left corner to open drop-down menu, select Open Text File and open the following file
-HHHDemo/controllers/hawk_control/planner.py
-The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
-Further instructions in file. After you have desired values, you can press play and simulation will run and have hound and hippo
-follow a path to target goal. Note that since
+This Demo is meant to show dynamics and control of cars.
+You may design a maze with the following constraints
+    1) All walls must be within the white boundaries
+    2) All walls must be vertical or horizontal (diagnal walls cause issues with configspace generation)
+    3) Hippo or Hound must be put inside maze, but not both, it must be at least one hippo 
+       width(the smaller dimension) away from any wall or edge of the maze, and it must face north
+
+1) To create the maze, click on the one of varying wall sizes on the right, then copy (Ctrl-C) and paste (Ctrl-V) to 
+make a copy of the desired Wall length. 
+
+2) Afterwards, use the arrows to rotate and move the wall to the desired location. Hit delete if you wish to remove a wall. 
+Note that if you delete something that ur not supposed to, there is no way to undo the delete 
+(this is a WeBots issue) so you must close the the WeBots tool without saving in order to retrieve the deleted item.
+
+3)Next be sure to put hound or hippo (not both) into the maze by clicking on them and dragging them into the maze. You may create 
+whatever maze satisifies the three constraints, but keep in mind that if the maze is unsolvable 
+RRT will run until it hits the upper boundary on node values.
+
+4)Next, click File in the top left corner to open the drop-down menu, select Open Text File and open the following file
+        HHHDemo/controllers/hawk_control/planner.py
+  Note: If the file is already open upon opening Webots then you can skip this step
+        
+5)The file should now be open in the text editor in Webots. Interactive part is located between ###### barriers.
+Further instructions in file. 
+
+6)After you have desired values, you can press play and simulation will run and have the car run the maze
+
+The purpose of this Demo is to show the control module as well as dynamics
 
 NOTE: Note that resetting the simulation for the 3D world, will reset the 3D world to whatever state it was in at
 time 0. So unless you save, ur maze will be wiped upon reset. Also you should not save while the simulation is running so only
 save at time 0. Saves to planner.py work the same as any normal file saves
+
+
+Top-Level,2 Demo
+---------------------------------------------------------------------------------------------------
+This Demo is more of a video demonstation. Both Top-Level 1 and 2 are preconfigured mazes and all u need to do is hit play
+and watch as the team attempts to solve the maze. Note that the initial positions of hound and hippo can be adjusted but
+very limitedly due to the preconfigured maze solution, so it's best to treat this as a video demo
+Top-Level: You can put hound anywhere in the bottom right of the maze and hippo anywhere else in the maze. Note that they must
+still be one hippo width away from a wall
+Top-Level2: You can move them anywhere in their initial area as long as they are one hippo width away from wall
+
+The purpose of this video demo is to show the synthesis of different modules as well as the fact that we were unable to synthesize
+collision avoidance on time. Due to this, Top-Level is expected to fail sometimes since hippo and hound share portions of execution
+where they can occupy the same area. Meanwhile Top-LEvel2 is has hound and hippo in separate areas so they will not be able
+to collide during execution and should succeed a majority of the time
 
 DynamicDemo
 ---------------------------------------------------------------------------------------------------
@@ -61,6 +111,7 @@ to the dynamics of either robot). Note that this is simply a way to check for ob
 and does not require dynamics. Once the RRTs are complete, they will be displayed, showing the static obstacles (walls)
 in dark blue, "gate" type dynamic obstacles in green, "block" type dynamic obstacles in yellow, and free space in purple.
 Once these windows are closed, the console will then output the obstacles each robot will encounter and in what order. 
+
 
 RCAP-Demo
 ---------------------------------------------------------------------------------------------------
@@ -86,7 +137,3 @@ There are three constraints on the RCAP:
 2. Only one robot is allowed to move at a time
 3. Since there is no replanning, there cannot be a scenario where one of the robot's parent node appears near 
    to the other robot's current node, this will cause catastrophic deadlock.
-
-Top-Level-1,2 Demo
----------------------------------------------------------------------------------------------------
-Setting these up still
