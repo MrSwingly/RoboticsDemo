@@ -1,0 +1,369 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  basicTimeStep 16
+  defaultDamping Damping {
+    linear 0.5
+    angular 0.5
+  }
+  contactProperties [
+    ContactProperties {
+      material2 "Caster"
+      coulombFriction [
+        0
+      ]
+    }
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation -0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation 0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.0005574291668469504 0.7141422651516722 0.7000003674261625 3.1404552722297705
+  position 4.648855070040843 25.744303707422176 3.824401718915451
+  followType "None"
+}
+Floor {
+  size 50 50
+}
+Wall {
+  translation 3.92656 -4.68958e-13 10.2858
+  rotation 0 1 0 3.14159
+  name "wall(4)"
+  size 12 0.2 0.1
+}
+Wall {
+  translation 3.92656 -4.68958e-13 -1.6142
+  rotation 0 1 0 3.14159
+  name "wall(1)"
+  size 12 0.2 0.1
+}
+Wall {
+  translation -2.03231 -1.06581e-14 4.3297
+  rotation 0 1 0 -1.5707953071795862
+  name "wall(2)"
+  size 12 0.2 0.1
+}
+Wall {
+  translation 9.8777 -1.06581e-14 4.3497
+  rotation 0 1 0 -1.5707953071795862
+  name "wall(3)"
+  size 12 0.2 0.1
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Solid {
+  translation -11.4989 -1.57223e-05 2.27198
+  rotation 1 0 0 4.692820414042842e-06
+  children [
+    DEF WALL-SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 3 0.3 0.1
+      }
+    }
+  ]
+  boundingObject USE WALL-SHAPE
+}
+Robot {
+  translation -2.9397 0.0247914 -0.261198
+  children [
+    DEF Emitter Emitter {
+      channel 1
+    }
+    Solid {
+      translation 0 0.04 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.1 0.1 0.1
+          }
+          geometry Cone {
+            bottomRadius 0.005
+            height 0.05
+          }
+        }
+      ]
+      name "solid(5)"
+      recognitionColors [
+        0.1 0.1 0.1
+      ]
+    }
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.0392157 1 0.0705882
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.03 0.1
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.03 0 0.027
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.03 0 0.027
+        rotation 1.9361415651829566e-12 -1.9361480843852535e-12 1 1.5707996938995747
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/water.jpg"
+                ]
+              }
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.025
+              subdivision 24
+            }
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.03 0 -0.027
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint Solid {
+        translation 0.03 0 -0.027
+        rotation -2.219372977076765e-12 2.2193804499504787e-12 1 1.5707996938995747
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.03 0 0.027
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+        }
+      ]
+      endPoint Solid {
+        translation -0.03 0 0.027
+        rotation 1.9505435260530986e-12 -1.950550093748387e-12 1 1.5707996938995747
+        children [
+          USE WHEEL
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.03 0 -0.027
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+        }
+      ]
+      endPoint Solid {
+        translation -0.03 0 -0.027
+        rotation -2.2164702091256406e-12 2.2164776722254134e-12 1 1.5707996938995747
+        children [
+          USE WHEEL
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF BEEP HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.015 0.04
+      }
+      device [
+        RotationalMotor {
+          name "boop"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.015 0.04
+        rotation 1 0 0 0
+        children [
+          DEF BOOP Group {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  roughness 1
+                  metalness 0
+                }
+                geometry Sphere {
+                  radius 0.005
+                }
+              }
+              Transform {
+                translation 0 0.01 0.0027
+                rotation 1 0 0 0.2617996938995747
+                children [
+                  DEF STICK Shape {
+                    appearance PBRAppearance {
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Capsule {
+                      height 0.03
+                      radius 0.005
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.019 0.02
+                rotation 1 0 0 -1.1780996938995747
+                children [
+                  USE STICK
+                ]
+              }
+            ]
+          }
+        ]
+        name "solid(4)"
+        boundingObject USE BOOP
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE BODY
+  physics Physics {
+    density -1
+    mass 2
+  }
+  recognitionColors [
+    0.1 0.1 0.1
+  ]
+  controller "new_hawk_RCAP"
+}
+Youbot {
+  translation 0.6 0.102592 0.6
+  rotation 0.5773516025189619 0.5773516025189619 0.5773476025217157 -2.094395307179586
+  name "Hippo"
+  controller "new_hippo_RCAP"
+  bodySlot [
+    DEF Receiver Receiver {
+      channel 1
+    }
+    DEF Emitter Emitter {
+      channel 1
+    }
+    Compass {
+    }
+    GPS {
+    }
+    Solid {
+      translation 0.01 -1.8366e-07 0.05
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.3 0.3 0.3
+          }
+          geometry Cone {
+            bottomRadius 0.01
+            height 0.1
+          }
+        }
+      ]
+      recognitionColors [
+        0.3 0.3 0.3
+      ]
+    }
+  ]
+}
+Youbot {
+  translation 3 0.102592 0
+  rotation 0.5773516025189619 0.5773516025189619 0.5773476025217157 -2.094395307179586
+  name "Hound_fake"
+  controller "new_hound_RCAP"
+  bodySlot [
+    DEF Receiver Receiver {
+      channel 1
+    }
+    DEF Emitter Emitter {
+      channel 1
+    }
+    Compass {
+    }
+    GPS {
+    }
+    Solid {
+      translation 0.01 -1.8366e-07 0.05
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.3 0.3 0.3
+          }
+          geometry Cone {
+            bottomRadius 0.01
+            height 0.1
+          }
+        }
+      ]
+      recognitionColors [
+        0.3 0.3 0.3
+      ]
+    }
+  ]
+}
+Solid {
+  name "solid(5)"
+}
