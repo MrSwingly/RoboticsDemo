@@ -11,17 +11,18 @@ def runRRT(dynamics, robotSize, data ,start = [0,50],end = [1950,1650]):
     data = data[::-1, :]
     plt.imshow(data.T, interpolation='nearest')  # show 2D representation of map
     img = obstaclefinder.imgToObs()  # create img from imported picture
-    if dynamics == 'HOUND':
-        scaleFactor = 3
-    elif dynamics == 'HIPPO':
-        scaleFactor = 6
-    obs = img.obsSpaceGen(robotSize, data, scaleFactor, debug=False)
-    plt.imshow(data,interpolation='nearest') #show 2D representation of map
+        
+        
+    ##########################################################################################
+    goal = [710,1110, 0]
+    ##########################################################################################
     
+
     #initialize RRT
-    #print(obs[0].shape)
-    r = RRT.rrt(N = 7000,obstacles = obs.T, obstacletype = 'array', maxcoords = obs[0].shape,
-            origin = start+[0,'',0],goal = end, live = False, divis = 10)
+    obs = img.obsSpaceGen(robotSize, data, scaleFactor = 6, debug=False)
+    plt.imshow(data,interpolation='nearest') #show 2D representation of map
+    r = RRT.rrt(N = 6000,obstacles = obs.T, obstacletype = 'array', maxcoords = obs[0].shape,
+            origin = start+[0,'',0],goal = goal, live = False, divis = 10)
             
     #Perform RRT
     trajectory = r.rrt(dynamics,plotting=True)

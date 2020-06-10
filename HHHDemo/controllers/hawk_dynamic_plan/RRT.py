@@ -106,7 +106,7 @@ class rrt():
     # finds a point one unit step from startnode, in the direction of targetnode. Takes "node" in order to set new node's parent node in node[2]
     def takestepHOUND(self,startnode, targetnode, nodes):  
         dt = 0.008        #Timestep in seconds
-        endtime = 2     #endtime in seconds
+        endtime = 2.4     #endtime in seconds
         instructionVector = []  #vector for instructions
         # Full spin and Full velocity
         theta_dot = 3.039003906

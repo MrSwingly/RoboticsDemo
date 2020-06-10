@@ -6,50 +6,10 @@ import math
 import ctypes
 from matplotlib import pyplot as plt
 import numpy as np
-from controller import Robot,Camera,CameraRecognitionObject,Compass,GPS,Gyro,InertialUnit,Keyboard,LED,Motor
+from controller import Robot,Camera,CameraRecognitionObject,Compass,GPS,Gyro,InertialUnit,LED,Motor
 import planner
 from scipy.spatial import distance
-
-# Function handles parsing messages received and setting system varibales for Hawk
-def process(message):
-    global hound_request
-    global hippo_request
-    message = message.decode('utf-8')
-    message = message.split()
-    if message[0] != "Hawk":
-        return 0
-    if message[1] == "Request":
-        if message[2] == "Hound":
-            hound_request[int(message[3])] = True
-        elif message[2] == "Hippo":
-            hippo_request[int(message[3])] = True
-        return 1
-    if message[1] == "Done":
-        if message[2] == "Hound":
-            hound_done[int(message[3])] = True
-        elif message[2] == "Hippo":
-            hippo_done[int(message[3])] = True
-        return 2
-
-# Function is a wrapper function for sending info to other cars
-def send(code):
-    if code == "Start_up":
-        message = bytes("All Startup", 'utf-8')
-        emitter.send(message)
-    elif code == "Request":
-        message = bytes("Hawk Request Hippo 1", 'utf-8')
-        emitter.send(message)
-    elif code == "Abort":
-        message = bytes("All Abort", 'utf-8')
-        emitter.send(message)
-    elif code == "Go":
-        message = bytes("All Go", 'utf-8')
-        emitter.send(message)
-    else:
-        message = bytes(code,'utf-8')
-        emitter.send(message)
-    return 1
-
+import dynObsPlanner
 # Given four points this function will calculate hoverzone for Hawk
 def get_goal_state(corners, fov):
     length = distance.euclidean(corners[0], corners[1])
@@ -93,9 +53,6 @@ gyro = robot.getGyro("gyro")
 gyro.enable(timestep)
 camera_roll_motor = robot.getMotor("camera roll");
 camera_pitch_motor = robot.getMotor("camera pitch");
-emitter = robot.getEmitter('emitter')
-receiver = robot.getReceiver('receiver')
-receiver.enable(timestep)
 front_left_motor = robot.getMotor("front left propeller");
 front_right_motor = robot.getMotor("front right propeller");
 rear_left_motor = robot.getMotor("rear left propeller");
@@ -103,9 +60,8 @@ rear_right_motor = robot.getMotor("rear right propeller");
 motors = {front_left_motor, front_right_motor, rear_left_motor, rear_right_motor};
 
 # Get Hover Zone
-corners = [(-1.5, -.5), (4, -.5), (4,3), (-1, 3)]
+corners = [(-2.75, -1.75), (2.75, -1.75), (2.75,1.75), (-2.75, 1.75)]
 hover_zone = get_goal_state(corners, 1)
-print("Hover Zone Calculated: ",hover_zone)
 target_altitude = hover_zone[1]
 target_x = hover_zone[0]
 target_z = hover_zone[2]
@@ -144,72 +100,26 @@ for k in range(camx):
         configtemp.append(0)
     configSpace.append(configtemp)
 
+dynObsSpace = []
+for k in range(camx):
+    configtemp = []
+    for l in range(camy):
+        configtemp.append(0)
+    dynObsSpace.append(configtemp)
+
 # Intitialize state machine varibles and other constants
-rende = (3.85 , 2.7)
-request = 0
+request = True
 hover1 = 0
 y_good = False
 x1 = 0
 x_good = False
 z1 = 0
 z_good = False
-start_sent = False
-done = False
-hound_request = [False]
-hippo_request = [False]
-hound_done = [False]
-hippo_done = [False]
-houndstart = [0,0]
-hippostart = [0,0]
-trigger = False
-
-#goalListHD = [[[600,350, math.pi],"Hound 0 Cap Wait"],[[310, 900, 0],"Hound 0 Cap Push"], [[710,1110, 0],"Hound 0 Cap Done"]]
-#startHD = [0, math.pi, 0]
-#startHP = [0, -math.pi/2, 0]
-#goalListHP = [[[845,535, -math.pi/2],"Hippo 0 Cap Push"],[[900, 835, 0],"Hippo 0 Cap Wait"], [[710,1110, 0],"Hippo 0 Cap Done"]]
-
-goalListHD = [[[575,350, math.pi/2],"Hound 0 Cap Wait"],[[240, 890, 0],"Hound 0 Cap Push"], [[710,1110, 0],"Hound 0 Cap Done"]]
-startHD = [0, math.pi/2, 0]
-startHP = [0, -math.pi/2, 0]
-goalListHP = [[[845,535, -math.pi/2],"Hippo 0 Cap Push"],[[950, 840, 0],"Hippo 0 Cap Wait"], [[710,1110, 0],"Hippo 0 Cap Done"]]
-goalIndex = 0
-
+dynObsLatch = False
 # Main loop:
 # - perform simulation steps until Webots is stops the controller
 while robot.step(timestep) != -1 and killswitch != 1:
     
-    # This while goes through all messages received and parses them
-    # changing state as appropriate
-    while receiver.getQueueLength() > 0:
-        message = receiver.getData()
-        code = process(message)
-        if code == 1:
-            temp = True
-            for x in hound_request:
-                if not x:
-                    temp = False
-            for x in hippo_request:
-                if not x:
-                    temp = False
-            if temp:
-                request = True       
-        elif code == 2:
-            temp = True
-            for x in hound_done:
-                if not x:
-                    temp = False
-            for x in hippo_done:
-                if not x:
-                    temp = False
-            if temp:
-                done = True
-                x_good = False
-                z_good = False
-                target_x = rende[0]
-                target_z = rende[1]
-        receiver.nextPacket()    
-
-    # Collect sensor reaadings from Hawk
     roll = imu.getRollPitchYaw()[0] + (math.pi / 2.0)
     pitch = imu.getRollPitchYaw()[1]
     yaw = imu.getRollPitchYaw()[2]
@@ -272,26 +182,17 @@ while robot.step(timestep) != -1 and killswitch != 1:
         elif abs(z_error) >= .04:
             z1 = 0
             z_good = False
-            roll_disturbance = -max(min(z_error, 1.5), -1.5)
-           
-    # Once done and x and z good, hover down to the floor
-    if done and x_good and z_good and not trigger:
-        trigger = True
-        y_good = False
-        target_altitude = 1       
+            roll_disturbance = -max(min(z_error, 1.5), -1.5)      
            
     # Valid Hover_mode Requires x y and z good 
     if y_good and x_good and z_good:
         hover_mode = True
-        if not start_sent:
-            send("Start_up")
-            start_sent = True
     else:
         hover_mode = False
 
     # Only Satisfy requests if there is one, you're in hover mode, and not done(although there
     # should be no requests if u are done)
-    if request and hover_mode and not done:
+    if request and hover_mode:
         # This next batch of code handles setting up the input to the RRT and configuration space
         number_of_objects = camera.getRecognitionNumberOfObjects();
         if number_of_objects > 0:
@@ -321,64 +222,74 @@ while robot.step(timestep) != -1 and killswitch != 1:
                 houndstart = [centx,camy - centy]
             elif (i.get_colors() == [0, 0, 0]):
                 hippostart = [centx,camy - centy]
-            elif(i.get_colors() == [1,0,0]):
+            elif(i.get_colors() == [1,0,0] or i.get_colors() == [1,1,0] or i.get_colors() == [1,0,1]):
                 #getting configspace for obstacles
-                for cdx in range(centx-xdist,centx+xdist):
-                    for cdy in range(centy-ydist,centy+ydist):
-                        if(cdx>=0 and cdx<camx and cdy>=0 and cdy<camy):
+                for cdx in range(centx - xdist, centx + xdist):
+                    for cdy in range(centy - ydist, centy + ydist):
+                        if (cdx >= 0 and cdx < camx and cdy >= 0 and cdy < camy):
                             configSpace[cdx][cdy] = 1;
+                            if (i.get_colors() == [1, 1, 0]):
+                                dynObsSpace[cdx][cdy] = 1
+                            elif (i.get_colors() == [1, 0, 1]):
+                                dynObsSpace[cdx][cdy] = 2
+                            else:
+                                dynObsSpace[cdx][cdy] = 0
         data = np.array(configSpace)
         data = np.transpose(data)
-        
+
+        dynData = np.array(dynObsSpace)
+        dynData = np.transpose(dynData)
+        if dynObsLatch == False:
+            hipObsInPath = [-1]
+            houObsInPath = [-1]
+            dynObs = dynObsPlanner.dynObsPlanner(data, dynData)
+            houndDyn = dynObs.dyncheck(houndstart, [1115, 1115])
+            hippoDyn = dynObs.dyncheck(hippostart, [1115, 1115])
+            for i in houndDyn:
+                if i == 0:
+                    pass
+                else:
+                    if not i==houObsInPath[-1]:
+                        houObsInPath.append(i)
+            houObsInPath.pop(0)
+            for i in hippoDyn:
+                if i == 0:
+                    pass
+                else:
+                    if not i==hipObsInPath[-1]:
+                        hipObsInPath.append(i)
+            hipObsInPath.pop(0)
+            obsName = ['','','gate','block']
+            c=0
+            print(houndDyn,hippoDyn)
+            for i in houObsInPath:
+                c=c+1
+                print("Hound's number " + str(c) + " obstacle is a " + obsName[i])
+
+            c = 0
+            for i in hipObsInPath:
+                c = c + 1
+                print("Hippo's number " + str(c) + " obstacle is a " + obsName[i])
+
+
+            dynObsLatch = True
+
         # Calling to map the RRT (you get five chances each)
-        chances = 0
-        while chances < 5:
-            pathHD = planner.runRRT('HOUND', [24,48], data, houndstart + [startHD[goalIndex]],goalListHD[goalIndex][0])
+        chances = 10
+        while chances < 2:
+            pathHD = planner.runRRT('HOUND', [24,48], data, houndstart + [0],"N/A")
             if pathHD != []:
                 break
             chances = chances + 1
         
-        chances = 0
-        while chances < 5:
-            pathHP = planner.runRRT('HIPPO', [96,136], data, hippostart+ [startHP[goalIndex]],goalListHP[goalIndex][0])
+        chances = 10
+        while chances < 2:
+            pathHP = planner.runRRT('HIPPO', [96,136], data, hippostart+ [0],"N/A")
             if pathHP != []:
                 break
             chances = chances + 1
-        
-        # Send Path to Hound if found
-        if pathHD != []:
-            for x in pathHD:
-                for y in x[3]:
-                    message = "Hound 0 Path " + str(y[0]) + " " + str(y[1]) + " " + str(y[2])
-                    send(message)
-            send(goalListHD[goalIndex][1])
-
-        # Send Path to Hippo if found
-        if pathHP != []:
-            for x in pathHP:
-                for y in x[3]:
-                    message = "Hippo 0 Path " + str(y[0]) + " " + str(y[1]) + " " + str(y[2]) + " " + str(y[3]) + " " + str(y[4])
-                    send(message)
-            send(goalListHP[goalIndex][1])
-
-        # If either robot fails to find a path send up the FooBar ALert!
-        if pathHD != [] and pathHP != []:
-            send("Go")
-            goalIndex = goalIndex+1
-        else:
-            send("Abort")
-            
         # Reset request variables
         request = False
-        for x in range(0, len(hound_request)):
-            hound_request[x] = False
-        for x in range(0, len(hippo_request)):
-            hippo_request[x] = False
-         
-    
-    # Once done done, hit the kill_switch
-    if done and y_good and x_good and z_good:
-        killswitch = 1
 
     # Variables that effect propeller inputs
     clamped_difference_yaw = max(min(target_yaw - yaw, 1), -1)
@@ -393,13 +304,6 @@ while robot.step(timestep) != -1 and killswitch != 1:
     front_right_motor_input = k_vertical_thrust + vertical_input + roll_input - pitch_input - yaw_input
     rear_left_motor_input = k_vertical_thrust + vertical_input - roll_input + pitch_input - yaw_input
     rear_right_motor_input = k_vertical_thrust + vertical_input + roll_input + pitch_input + yaw_input
-
-    # KILL SWITCH
-    if killswitch == 1:
-        front_left_motor_input = 0.0;
-        front_right_motor_input = 0.0;
-        rear_left_motor_input = 0.0;
-        rear_right_motor_input = 0.0;
 
     # Inputs
     front_left_motor.setVelocity(front_left_motor_input)

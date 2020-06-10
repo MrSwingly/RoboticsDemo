@@ -20,7 +20,7 @@ def runRRT(dynamics, robotSize, data ,start = [0,50],end = [1950,1650]):
     
     #initialize RRT
     #print(obs[0].shape)
-    r = RRT.rrt(N = 7000,obstacles = obs.T, obstacletype = 'array', maxcoords = obs[0].shape,
+    r = RRT.rrt(N = 6000,obstacles = obs.T, obstacletype = 'array', maxcoords = obs[0].shape,
             origin = start+[0,'',0],goal = end, live = False, divis = 10)
             
     #Perform RRT

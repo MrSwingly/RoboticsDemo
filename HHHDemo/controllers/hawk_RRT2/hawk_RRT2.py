@@ -103,7 +103,7 @@ rear_right_motor = robot.getMotor("rear right propeller");
 motors = {front_left_motor, front_right_motor, rear_left_motor, rear_right_motor};
 
 # Get Hover Zone
-corners = [(-1.5, -.5), (4, -.5), (4,3), (-1, 3)]
+corners = [(-2.75, -1.75), (2.75, -1.75), (2.75,1.75), (-2.75, 1.75)]
 hover_zone = get_goal_state(corners, 1)
 print("Hover Zone Calculated: ",hover_zone)
 target_altitude = hover_zone[1]
@@ -145,7 +145,7 @@ for k in range(camx):
     configSpace.append(configtemp)
 
 # Intitialize state machine varibles and other constants
-rende = (3.85 , 2.7)
+rende = (2.45 , -2.0)
 request = 0
 hover1 = 0
 y_good = False
@@ -168,10 +168,10 @@ trigger = False
 #startHP = [0, -math.pi/2, 0]
 #goalListHP = [[[845,535, -math.pi/2],"Hippo 0 Cap Push"],[[900, 835, 0],"Hippo 0 Cap Wait"], [[710,1110, 0],"Hippo 0 Cap Done"]]
 
-goalListHD = [[[575,350, math.pi/2],"Hound 0 Cap Wait"],[[240, 890, 0],"Hound 0 Cap Push"], [[710,1110, 0],"Hound 0 Cap Done"]]
-startHD = [0, math.pi/2, 0]
-startHP = [0, -math.pi/2, 0]
-goalListHP = [[[845,535, -math.pi/2],"Hippo 0 Cap Push"],[[950, 840, 0],"Hippo 0 Cap Wait"], [[710,1110, 0],"Hippo 0 Cap Done"]]
+goalListHD = [[[120,500, math.pi/2],"Hound 0 Cap Push"],[[130, 720, math.pi/2],"Hound 0 Cap Push"], [[300,1110, 0],"Hound 0 Cap Done"]]
+startHD = [0, math.pi/2, math.pi/2]
+startHP = [0, 0, -math.pi/2]
+goalListHP = [[[710,345, 0],"Hippo 0 Cap Push"],[[750, 1050, -math.pi/2],"Hippo 0 Cap Wait"], [[480,1080, 0],"Hippo 0 Cap Done"]]
 goalIndex = 0
 
 # Main loop:

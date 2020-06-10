@@ -27,7 +27,7 @@ def runRRT(dynamics, robotSize, data ,start = [0,50],end = [1950,1650]):
         HP = True if Hippo running the Maze, eitherwise false
         NOTE: Both should not be true, can be done but with no collision avoidance, will fail
     """
-    goal = [710,200, 0]
+    goal = [800,900, 0]
     HD = False
     HP = True
     
