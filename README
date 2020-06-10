@@ -10,6 +10,7 @@ After downloading: Go to HHHDemo/Worlds
 You will see some files with the suffix Demo, open these files using Webots in Order to interact with the Demos
 
 
+---------------------------------------------------------------------------------------------------
 ConfigAndPlanningDemo
 ---------------------------------------------------------------------------------------------------
 This Demo is meant to show the config and planning modules. 
@@ -52,6 +53,7 @@ The purpose of this Demo is to show the config and planning modules, the variabl
 performance and accuracy of the modules.
 
 
+---------------------------------------------------------------------------------------------------
 ControlDemo
 ---------------------------------------------------------------------------------------------------
 This Demo is meant to show dynamics and control of cars.
@@ -93,6 +95,7 @@ time 0. So unless you save, ur maze will be wiped upon reset. Also you should no
 save at time 0. Saves to planner.py work the same as any normal file saves
 
 
+---------------------------------------------------------------------------------------------------
 Top-Level,2 Demo
 ---------------------------------------------------------------------------------------------------
 This Demo is more of a video demonstation. Both Top-Level 1 and 2 are preconfigured mazes and all u need to do is hit play
@@ -107,6 +110,8 @@ collision avoidance on time. Due to this, Top-Level is expected to fail sometime
 where they can occupy the same area. Meanwhile Top-Level2 is has hound and hippo in separate areas so they will not be able
 to collide during execution and should succeed a majority of the time
 
+
+---------------------------------------------------------------------------------------------------
 DynamicDemo
 ---------------------------------------------------------------------------------------------------
 This demo is meant to demonstrate the detection of dynamic obstacles in the path of individual robots. Setup is identical to 
@@ -122,6 +127,7 @@ in dark blue, "gate" type dynamic obstacles in green, "block" type dynamic obsta
 Once these windows are closed, the console will then output the obstacles each robot will encounter and in what order. 
 
 
+---------------------------------------------------------------------------------------------------
 RCAP-Demo
 ---------------------------------------------------------------------------------------------------
 1) To run the simulation, go to "worlds" folder and open "RCAP_show.wbt".
