@@ -44,8 +44,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.5718664191173815 -0.5756326257496092 -0.5844791517740165 2.088148139865213
-  position 0.49429785100548257 14.079925290351254 -0.30333398852807747
+  orientation -0.5796257087264237 -0.5717053524775461 -0.5806780758147462 2.076674629995255
+  position 0.376523669583156 13.380539045007403 -0.26030371186231904
 }
 Floor {
   tileSize 1 1
@@ -129,7 +129,7 @@ Solid {
   ]
 }
 Solid {
-  translation 1.5 0.05 4
+  translation 1.5 0.05 3.97
   children [
     DEF WALL-SHAPE4 Shape {
       appearance PBRAppearance {
@@ -154,7 +154,8 @@ Solid {
   ]
 }
 Solid {
-  translation 2 0.05 3.75
+  translation 2.00999 0.05 3.74
+  rotation 0 1 0 3.14159
   children [
     DEF WALL-SHAPE5 Shape {
       appearance PBRAppearance {
@@ -241,7 +242,7 @@ hippo {
   ]
 }
 hound {
-  translation -2.49998 0.03 3.49
+  translation -2.42996 0.03 3.5
   rotation 0 1 0 1.5708
   RecognitionColors [
     1 1 1
@@ -321,4 +322,32 @@ AdvertisingBoard {
     "textures/Capture.JPG"
   ]
   displayHeight 1
+}
+Solid {
+  translation -1.92 0.05 3.49
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cone {
+        bottomRadius 0.05
+        height 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject Cylinder {
+    height 0.1
+    radius 0.05
+  }
+  physics Physics {
+    density -1
+    mass 0.01
+  }
+  recognitionColors [
+    0 1 0
+  ]
 }
