@@ -20,28 +20,22 @@ def runRRT(dynamics, robotSize, data ,start = [0,50],end = [1950,1650]):
     
     #############################################################################################
     """
-        #SET THE GOAL AND CAR THAT IS BEING TESTED
-        goal = Goal, may alter first three values for x,y,theta (DO NOT ALTER REMAINING VALUES)
-            x and y are bound from 0 to 1199 and theta is bound to -math.pi and math.pi
-        HD = True if Hound running the Maze, eitherwise false
-        HP = True if Hippo running the Maze, eitherwise false
-        NOTE: Both should not be true, can be done but with no collision avoidance, will fail
+        #SET THE CAR THAT IS BEING TESTED
+        Contestant = "Hound" or "Hippo" whoever is running the maze
     """
-    goal = [800,900, 0]
-    HD = False
-    HP = True
+    Contestant = "Hound"
     
     #############################################################################################
     
-    if dynamics == 'HOUND' and not HD:
+    if dynamics == 'HOUND' and Contestant == "Hippo":
         return [[0,0,0,[[0,0,100]]]]
-    if dynamics == 'HIPPO' and not HP:
+    if dynamics == 'HIPPO' and Contestant == "Hound":
         return [[0,0,0,[[0,0,0,0,100]]]]
     
     #initialize RRT
     #print(obs[0].shape)
     r = RRT.rrt(N = 5000,obstacles = obs.T, obstacletype = 'array', maxcoords = obs[0].shape,
-            origin = start+[0,'',0],goal = goal, live = False, divis = 10)
+            origin = start+[0,'',0],goal = end, live = False, divis = 10)
             
     #Perform RRT
     trajectory = r.rrt(dynamics,plotting=True)
